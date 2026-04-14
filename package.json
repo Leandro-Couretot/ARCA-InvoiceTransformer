@@ -1,0 +1,16 @@
+{
+  "name": "arca-invoicetransformer",
+  "version": "1.0.0",
+  "description": "Transformador de certificados ARCA a planillas Excel/Google Sheets",
+  "scripts": {
+    "push": "clasp push",
+    "pull": "clasp pull",
+    "deploy": "clasp deploy",
+    "open": "clasp open",
+    "login": "clasp login --no-localhost",
+    "status": "clasp status"
+  },
+  "devDependencies": {
+    "@google/clasp": "^3.3.0"
+  }
+}

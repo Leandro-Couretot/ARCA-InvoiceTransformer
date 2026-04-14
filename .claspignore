@@ -1,0 +1,8 @@
+# Ignorar todo excepto la carpeta gas/
+**/**
+!gas/**
+!gas/appsscript.json
+
+# Ignorar archivos innecesarios dentro de gas/
+gas/node_modules/**
+gas/.git/**
