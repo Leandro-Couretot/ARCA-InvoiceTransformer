@@ -1,0 +1,224 @@
+{
+  "lastUpdated": "2026-05-23",
+  "portfolio": {
+    "snapshots": [
+      {
+        "mes": "Nov 2025",
+        "fecha": "04/11/2025",
+        "total": 24932,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 6900,
+          "Wise Lea": 4500,
+          "PayPal": 150,
+          "Galicia USD": 574,
+          "Binance": 933,
+          "Cocos": 3215
+        }
+      },
+      {
+        "mes": "Ene 2026",
+        "fecha": "11/01/2026",
+        "total": 28380,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 5950,
+          "Wise Lea": 4974,
+          "PayPal": 257,
+          "Galicia USD": 855,
+          "Binance": 941,
+          "Cocos": 6505,
+          "Mercado Pago": 238
+        }
+      },
+      {
+        "mes": "Feb 2026",
+        "fecha": "02/02/2026",
+        "total": 29937,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 5950,
+          "Wise Lea": 4946,
+          "PayPal": 257,
+          "Galicia USD": 855,
+          "Binance": 544,
+          "Cocos": 8725,
+          "Mercado Pago": 0
+        }
+      },
+      {
+        "mes": "Mar 2026",
+        "fecha": "02/03/2026",
+        "total": 32818,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 5728,
+          "Wise Lea": 4861,
+          "PayPal": 257,
+          "Galicia USD": 856,
+          "Binance": 546,
+          "Cocos": 11429,
+          "Mercado Pago": 481
+        }
+      },
+      {
+        "mes": "Abr 2026",
+        "fecha": "01/04/2026",
+        "total": 30467,
+        "cuentas": {
+          "Cash USD": 5981,
+          "Cash EUR": 754,
+          "Wise Jo": 3817,
+          "Wise Lea": 2528,
+          "PayPal": 257,
+          "Galicia USD": 856,
+          "Binance": 546,
+          "Cocos": 15314,
+          "Mercado Pago": 414
+        }
+      },
+      {
+        "mes": "May 2026",
+        "fecha": "02/05/2026",
+        "total": 27437,
+        "cuentas": {
+          "Cash USD": 5156,
+          "Cash EUR": 754,
+          "Wise Jo": 2369,
+          "Wise Lea": 1027,
+          "PayPal": 257,
+          "Galicia USD": 857,
+          "Binance": 546,
+          "Cocos": 14124,
+          "Mercado Pago": 2347
+        }
+      }
+    ]
+  },
+  "caucionARS": {
+    "nota": "Portafolio de cauciones/FCI en pesos. Lea = Leandro, Gasti = Josefina.",
+    "mensual": [
+      {
+        "mes": "Ene 2026",
+        "codigo": "2026-01",
+        "ingresosLeaARS": 58058,
+        "leaPortfolioARS": 6957834,
+        "gastiPortfolioARS": 34640558,
+        "rendAnualizado": 33.0,
+        "notaParcial": true
+      },
+      {
+        "mes": "Feb 2026",
+        "codigo": "2026-02",
+        "ingresosLeaARS": 241480,
+        "leaPortfolioARS": 10109314,
+        "gastiPortfolioARS": 42126605,
+        "rendAnualizado": 35.8
+      },
+      {
+        "mes": "Mar 2026",
+        "codigo": "2026-03",
+        "ingresosLeaARS": 408342,
+        "leaPortfolioARS": 14017655,
+        "gastiPortfolioARS": 48471870,
+        "rendAnualizado": 40.5
+      },
+      {
+        "mes": "Abr 2026",
+        "codigo": "2026-04",
+        "ingresosLeaARS": 356471,
+        "leaPortfolioARS": 19269200,
+        "gastiPortfolioARS": 54892283,
+        "rendAnualizado": 29.4
+      },
+      {
+        "mes": "May 2026",
+        "codigo": "2026-05",
+        "ingresosLeaARS": 349651,
+        "leaPortfolioARS": 22618850,
+        "gastiPortfolioARS": 61281205,
+        "rendAnualizado": 26.6
+      }
+    ]
+  },
+  "gastosFijos": {
+    "mensualARS": [
+      { "concepto": "Seguro auto", "monto": 147000 },
+      { "concepto": "OSDE", "monto": 92037 },
+      { "concepto": "Seguro moto", "monto": 27000 },
+      { "concepto": "Personal (celular)", "monto": 17275 },
+      { "concepto": "Netflix", "monto": 10400 },
+      { "concepto": "Meli+", "monto": 8990 },
+      { "concepto": "Spotify", "monto": 8414 },
+      { "concepto": "Telepase", "monto": 5000 }
+    ],
+    "mensualUSD": [
+      { "concepto": "Adobe", "monto": 60 },
+      { "concepto": "n8n", "monto": 23 },
+      { "concepto": "Claude", "monto": 20 },
+      { "concepto": "Drive", "monto": 3 }
+    ],
+    "semanalARS": [
+      { "concepto": "Angie (empleada)", "monto": 20000 }
+    ]
+  },
+  "gastosMensuales": [
+    {
+      "mes": "Mar 24", "codigo": "24-03", "totalARS": 279157,
+      "categorias": { "gastos seguros": 153680, "sin categoria": 125477 }
+    },
+    {
+      "mes": "Abr 24", "codigo": "24-04", "totalARS": 251601,
+      "categorias": { "gastos seguros": 129004, "sin categoria": 106786, "felicidad": 15812 }
+    },
+    {
+      "mes": "May 24", "codigo": "24-05", "totalARS": 38396,
+      "categorias": { "gastos seguros": 20994, "sin categoria": 17402 }
+    },
+    {
+      "mes": "Jun 24", "codigo": "24-06", "totalARS": 395244,
+      "categorias": { "gastos seguros": 236498, "finde largo + cucha": 86546, "sin categoria": 45950, "obra": 23500, "felicidad": 2750 }
+    },
+    {
+      "mes": "Jul 24", "codigo": "24-07", "totalARS": 239702,
+      "categorias": { "gastos seguros": 229202, "felicidad": 10500 }
+    },
+    {
+      "mes": "Ago 24", "codigo": "24-08", "totalARS": 288996,
+      "categorias": { "gastos seguros": 231946, "felicidad": 42100, "obra": 14950 }
+    },
+    {
+      "mes": "Sep 24", "codigo": "24-09", "totalARS": 978524,
+      "categorias": { "gastos seguros": 814717, "muebles": 65667, "makro": 42950, "obra": 41939, "felicidad": 9250, "prestamo": 4000 }
+    },
+    {
+      "mes": "Oct 24", "codigo": "24-10", "totalARS": 13474,
+      "categorias": { "gastos seguros": 11974, "felicidad": 1500 }
+    }
+  ],
+  "japanTrip": {
+    "totalUSD": 5193,
+    "fechas": "26 Mar - 17 Abr 2026",
+    "porCategoria": {
+      "Hospedaje": 1401,
+      "Compras": 1115,
+      "Comida": 648,
+      "Entradas": 589,
+      "Supermercado": 489,
+      "Amadeo": 390,
+      "Uber": 222,
+      "Transporte": 141,
+      "Aeropuerto": 119,
+      "Regalo": 79
+    },
+    "porPersona": {
+      "Leandro": 1890,
+      "Lucia": 2650,
+      "Efectivo": 653
+    }
+  }
+}
