@@ -1,224 +1,69 @@
 {
+  "demo": true,
   "lastUpdated": "2026-05-23",
-  "portfolio": {
-    "snapshots": [
-      {
-        "mes": "Nov 2025",
-        "fecha": "04/11/2025",
-        "total": 24932,
-        "cuentas": {
-          "Cash USD": 7906,
-          "Cash EUR": 754,
-          "Wise Jo": 6900,
-          "Wise Lea": 4500,
-          "PayPal": 150,
-          "Galicia USD": 574,
-          "Binance": 933,
-          "Cocos": 3215
-        }
-      },
-      {
-        "mes": "Ene 2026",
-        "fecha": "11/01/2026",
-        "total": 28380,
-        "cuentas": {
-          "Cash USD": 7906,
-          "Cash EUR": 754,
-          "Wise Jo": 5950,
-          "Wise Lea": 4974,
-          "PayPal": 257,
-          "Galicia USD": 855,
-          "Binance": 941,
-          "Cocos": 6505,
-          "Mercado Pago": 238
-        }
-      },
-      {
-        "mes": "Feb 2026",
-        "fecha": "02/02/2026",
-        "total": 29937,
-        "cuentas": {
-          "Cash USD": 7906,
-          "Cash EUR": 754,
-          "Wise Jo": 5950,
-          "Wise Lea": 4946,
-          "PayPal": 257,
-          "Galicia USD": 855,
-          "Binance": 544,
-          "Cocos": 8725,
-          "Mercado Pago": 0
-        }
-      },
-      {
-        "mes": "Mar 2026",
-        "fecha": "02/03/2026",
-        "total": 32818,
-        "cuentas": {
-          "Cash USD": 7906,
-          "Cash EUR": 754,
-          "Wise Jo": 5728,
-          "Wise Lea": 4861,
-          "PayPal": 257,
-          "Galicia USD": 856,
-          "Binance": 546,
-          "Cocos": 11429,
-          "Mercado Pago": 481
-        }
-      },
-      {
-        "mes": "Abr 2026",
-        "fecha": "01/04/2026",
-        "total": 30467,
-        "cuentas": {
-          "Cash USD": 5981,
-          "Cash EUR": 754,
-          "Wise Jo": 3817,
-          "Wise Lea": 2528,
-          "PayPal": 257,
-          "Galicia USD": 856,
-          "Binance": 546,
-          "Cocos": 15314,
-          "Mercado Pago": 414
-        }
-      },
-      {
-        "mes": "May 2026",
-        "fecha": "02/05/2026",
-        "total": 27437,
-        "cuentas": {
-          "Cash USD": 5156,
-          "Cash EUR": 754,
-          "Wise Jo": 2369,
-          "Wise Lea": 1027,
-          "PayPal": 257,
-          "Galicia USD": 857,
-          "Binance": 546,
-          "Cocos": 14124,
-          "Mercado Pago": 2347
-        }
-      }
-    ]
-  },
-  "caucionARS": {
-    "nota": "Portafolio de cauciones/FCI en pesos. Lea = Leandro, Gasti = Josefina.",
-    "mensual": [
-      {
-        "mes": "Ene 2026",
-        "codigo": "2026-01",
-        "ingresosLeaARS": 58058,
-        "leaPortfolioARS": 6957834,
-        "gastiPortfolioARS": 34640558,
-        "rendAnualizado": 33.0,
-        "notaParcial": true
-      },
-      {
-        "mes": "Feb 2026",
-        "codigo": "2026-02",
-        "ingresosLeaARS": 241480,
-        "leaPortfolioARS": 10109314,
-        "gastiPortfolioARS": 42126605,
-        "rendAnualizado": 35.8
-      },
-      {
-        "mes": "Mar 2026",
-        "codigo": "2026-03",
-        "ingresosLeaARS": 408342,
-        "leaPortfolioARS": 14017655,
-        "gastiPortfolioARS": 48471870,
-        "rendAnualizado": 40.5
-      },
-      {
-        "mes": "Abr 2026",
-        "codigo": "2026-04",
-        "ingresosLeaARS": 356471,
-        "leaPortfolioARS": 19269200,
-        "gastiPortfolioARS": 54892283,
-        "rendAnualizado": 29.4
-      },
-      {
-        "mes": "May 2026",
-        "codigo": "2026-05",
-        "ingresosLeaARS": 349651,
-        "leaPortfolioARS": 22618850,
-        "gastiPortfolioARS": 61281205,
-        "rendAnualizado": 26.6
-      }
-    ]
-  },
-  "gastosFijos": {
-    "mensualARS": [
-      { "concepto": "Seguro auto", "monto": 147000 },
-      { "concepto": "OSDE", "monto": 92037 },
-      { "concepto": "Seguro moto", "monto": 27000 },
-      { "concepto": "Personal (celular)", "monto": 17275 },
-      { "concepto": "Netflix", "monto": 10400 },
-      { "concepto": "Meli+", "monto": 8990 },
-      { "concepto": "Spotify", "monto": 8414 },
-      { "concepto": "Telepase", "monto": 5000 }
-    ],
-    "mensualUSD": [
-      { "concepto": "Adobe", "monto": 60 },
-      { "concepto": "n8n", "monto": 23 },
-      { "concepto": "Claude", "monto": 20 },
-      { "concepto": "Drive", "monto": 3 }
-    ],
-    "semanalARS": [
-      { "concepto": "Angie (empleada)", "monto": 20000 }
-    ]
-  },
-  "gastosMensuales": [
-    {
-      "mes": "Mar 24", "codigo": "24-03", "totalARS": 279157,
-      "categorias": { "gastos seguros": 153680, "sin categoria": 125477 }
-    },
-    {
-      "mes": "Abr 24", "codigo": "24-04", "totalARS": 251601,
-      "categorias": { "gastos seguros": 129004, "sin categoria": 106786, "felicidad": 15812 }
-    },
-    {
-      "mes": "May 24", "codigo": "24-05", "totalARS": 38396,
-      "categorias": { "gastos seguros": 20994, "sin categoria": 17402 }
-    },
-    {
-      "mes": "Jun 24", "codigo": "24-06", "totalARS": 395244,
-      "categorias": { "gastos seguros": 236498, "finde largo + cucha": 86546, "sin categoria": 45950, "obra": 23500, "felicidad": 2750 }
-    },
-    {
-      "mes": "Jul 24", "codigo": "24-07", "totalARS": 239702,
-      "categorias": { "gastos seguros": 229202, "felicidad": 10500 }
-    },
-    {
-      "mes": "Ago 24", "codigo": "24-08", "totalARS": 288996,
-      "categorias": { "gastos seguros": 231946, "felicidad": 42100, "obra": 14950 }
-    },
-    {
-      "mes": "Sep 24", "codigo": "24-09", "totalARS": 978524,
-      "categorias": { "gastos seguros": 814717, "muebles": 65667, "makro": 42950, "obra": 41939, "felicidad": 9250, "prestamo": 4000 }
-    },
-    {
-      "mes": "Oct 24", "codigo": "24-10", "totalARS": 13474,
-      "categorias": { "gastos seguros": 11974, "felicidad": 1500 }
-    }
-  ],
-  "japanTrip": {
-    "totalUSD": 5193,
-    "fechas": "26 Mar - 17 Abr 2026",
-    "porCategoria": {
-      "Hospedaje": 1401,
-      "Compras": 1115,
-      "Comida": 648,
-      "Entradas": 589,
-      "Supermercado": 489,
-      "Amadeo": 390,
-      "Uber": 222,
-      "Transporte": 141,
-      "Aeropuerto": 119,
-      "Regalo": 79
-    },
-    "porPersona": {
-      "Leandro": 1890,
-      "Lucia": 2650,
-      "Efectivo": 653
-    }
-  }
+  "rows": [
+    {"date":"2026-02-01","ingresos":3527533,"egreso":0,"referencia":"sueldo","Detalle":""},
+    {"date":"2026-02-01","ingresos":2200000,"egreso":0,"referencia":"inversiones","Detalle":"rend caucion"},
+    {"date":"2026-02-01","ingresos":1229900,"egreso":0,"referencia":"alquiler","Detalle":""},
+    {"date":"2026-02-10","ingresos":0,"egreso":536267,"referencia":"obra","Detalle":""},
+    {"date":"2026-02-12","ingresos":0,"egreso":513064,"referencia":"supermercado","Detalle":"carrefour"},
+    {"date":"2026-02-05","ingresos":0,"egreso":350594,"referencia":"amadeo","Detalle":"cuota"},
+    {"date":"2026-02-05","ingresos":0,"egreso":336342,"referencia":"alfy","Detalle":"cuota"},
+    {"date":"2026-02-15","ingresos":0,"egreso":267934,"referencia":"juntada","Detalle":""},
+    {"date":"2026-02-08","ingresos":0,"egreso":142518,"referencia":"pilates","Detalle":""},
+    {"date":"2026-02-03","ingresos":0,"egreso":114014,"referencia":"seguro","Detalle":""},
+    {"date":"2026-02-20","ingresos":0,"egreso":114014,"referencia":"salida","Detalle":""},
+    {"date":"2026-02-18","ingresos":0,"egreso":114014,"referencia":"nafta","Detalle":"ypf"},
+    {"date":"2026-02-22","ingresos":0,"egreso":85511,"referencia":"delivery","Detalle":"pedidos ya"},
+    {"date":"2026-02-25","ingresos":0,"egreso":85511,"referencia":"hogar","Detalle":""},
+    {"date":"2026-02-28","ingresos":0,"egreso":190575,"referencia":"varios","Detalle":""},
+
+    {"date":"2026-03-01","ingresos":3527533,"egreso":0,"referencia":"sueldo","Detalle":""},
+    {"date":"2026-03-01","ingresos":1900000,"egreso":0,"referencia":"inversiones","Detalle":"rend caucion"},
+    {"date":"2026-03-01","ingresos":1227010,"egreso":0,"referencia":"alquiler","Detalle":""},
+    {"date":"2026-03-10","ingresos":0,"egreso":524009,"referencia":"obra","Detalle":""},
+    {"date":"2026-03-12","ingresos":0,"egreso":501399,"referencia":"supermercado","Detalle":"disco"},
+    {"date":"2026-03-05","ingresos":0,"egreso":342636,"referencia":"amadeo","Detalle":"cuota"},
+    {"date":"2026-03-05","ingresos":0,"egreso":328748,"referencia":"alfy","Detalle":"cuota"},
+    {"date":"2026-03-15","ingresos":0,"egreso":261835,"referencia":"juntada","Detalle":""},
+    {"date":"2026-03-08","ingresos":0,"egreso":139306,"referencia":"pilates","Detalle":""},
+    {"date":"2026-03-03","ingresos":0,"egreso":111451,"referencia":"seguro","Detalle":""},
+    {"date":"2026-03-20","ingresos":0,"egreso":111451,"referencia":"salida","Detalle":""},
+    {"date":"2026-03-18","ingresos":0,"egreso":111451,"referencia":"nafta","Detalle":"ypf"},
+    {"date":"2026-03-22","ingresos":0,"egreso":83589,"referencia":"delivery","Detalle":"pedidos ya"},
+    {"date":"2026-03-25","ingresos":0,"egreso":83589,"referencia":"hogar","Detalle":""},
+    {"date":"2026-03-28","ingresos":0,"egreso":186468,"referencia":"varios","Detalle":""},
+
+    {"date":"2026-04-01","ingresos":3527533,"egreso":0,"referencia":"sueldo","Detalle":""},
+    {"date":"2026-04-01","ingresos":1800000,"egreso":0,"referencia":"inversiones","Detalle":"rend caucion"},
+    {"date":"2026-04-01","ingresos":1074042,"egreso":0,"referencia":"alquiler","Detalle":""},
+    {"date":"2026-04-10","ingresos":0,"egreso":512760,"referencia":"obra","Detalle":""},
+    {"date":"2026-04-12","ingresos":0,"egreso":490576,"referencia":"supermercado","Detalle":"carrefour"},
+    {"date":"2026-04-05","ingresos":0,"egreso":335308,"referencia":"amadeo","Detalle":"cuota"},
+    {"date":"2026-04-05","ingresos":0,"egreso":321699,"referencia":"alfy","Detalle":"cuota"},
+    {"date":"2026-04-15","ingresos":0,"egreso":256092,"referencia":"juntada","Detalle":""},
+    {"date":"2026-04-08","ingresos":0,"egreso":136274,"referencia":"pilates","Detalle":""},
+    {"date":"2026-04-03","ingresos":0,"egreso":109019,"referencia":"seguro","Detalle":""},
+    {"date":"2026-04-20","ingresos":0,"egreso":109019,"referencia":"salida","Detalle":""},
+    {"date":"2026-04-18","ingresos":0,"egreso":109019,"referencia":"nafta","Detalle":"ypf"},
+    {"date":"2026-04-22","ingresos":0,"egreso":81764,"referencia":"delivery","Detalle":"pedidos ya"},
+    {"date":"2026-04-25","ingresos":0,"egreso":81764,"referencia":"hogar","Detalle":""},
+    {"date":"2026-04-28","ingresos":0,"egreso":182378,"referencia":"varios","Detalle":""},
+
+    {"date":"2026-05-01","ingresos":3527533,"egreso":0,"referencia":"sueldo","Detalle":""},
+    {"date":"2026-05-01","ingresos":2300000,"egreso":0,"referencia":"inversiones","Detalle":"rend caucion"},
+    {"date":"2026-05-01","ingresos":1410871,"egreso":0,"referencia":"alquiler","Detalle":""},
+    {"date":"2026-05-10","ingresos":0,"egreso":798310,"referencia":"obra","Detalle":""},
+    {"date":"2026-05-12","ingresos":0,"egreso":763748,"referencia":"supermercado","Detalle":"disco"},
+    {"date":"2026-05-05","ingresos":0,"egreso":521860,"referencia":"amadeo","Detalle":"cuota"},
+    {"date":"2026-05-05","ingresos":0,"egreso":500516,"referencia":"alfy","Detalle":"cuota"},
+    {"date":"2026-05-15","ingresos":0,"egreso":398856,"referencia":"juntada","Detalle":""},
+    {"date":"2026-05-08","ingresos":0,"egreso":212160,"referencia":"pilates","Detalle":""},
+    {"date":"2026-05-03","ingresos":0,"egreso":169716,"referencia":"seguro","Detalle":""},
+    {"date":"2026-05-20","ingresos":0,"egreso":169716,"referencia":"salida","Detalle":""},
+    {"date":"2026-05-18","ingresos":0,"egreso":169716,"referencia":"nafta","Detalle":"ypf"},
+    {"date":"2026-05-22","ingresos":0,"egreso":127289,"referencia":"delivery","Detalle":"pedidos ya"},
+    {"date":"2026-05-23","ingresos":0,"egreso":127289,"referencia":"hogar","Detalle":""},
+    {"date":"2026-05-23","ingresos":0,"egreso":284941,"referencia":"varios","Detalle":""}
+  ]
 }

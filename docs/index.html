@@ -3,25 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finanzas Personales</title>
+  <title>Finanzas Lea y Jo</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg: #0f1117;
+      --bg:      #0f1117;
       --surface: #1a1d27;
-      --surface2: #222534;
-      --border: #2e3248;
-      --text: #e2e8f0;
-      --muted: #8892a4;
-      --accent: #6366f1;
-      --accent2: #22d3ee;
-      --green: #34d399;
-      --red: #f87171;
-      --yellow: #fbbf24;
+      --surf2:   #222534;
+      --border:  #2e3248;
+      --text:    #e2e8f0;
+      --muted:   #8892a4;
+      --blue:    #4472C4;
+      --orange:  #E69138;
+      --green:   #34d399;
+      --red:     #f87171;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -29,811 +26,542 @@
       font-size: 14px;
       min-height: 100vh;
     }
-
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 20px 32px;
+      padding: 18px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-
     header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
-    header span { color: var(--muted); font-size: 13px; }
-
-    .dot { display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; margin-right: 8px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-    main { max-width: 1280px; margin: 0 auto; padding: 28px 24px; }
-
-    /* KPI Cards */
+    .status-line { margin-top: 4px; font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+    .dot.demo { background: var(--orange); animation: pulse 2s infinite; }
+    .dot.loading { background: var(--muted); animation: pulse 0.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .header-actions { display: flex; gap: 10px; }
+    .btn {
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background .15s;
+    }
+    .btn:hover { background: var(--border); }
+    .btn-primary {
+      background: var(--blue);
+      border: none;
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .btn-primary:hover { opacity: .88; }
+    main { max-width: 1280px; margin: 0 auto; padding: 24px 24px 8px; }
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
     }
-
+    @media (max-width: 900px) { .kpi-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .kpi-grid { grid-template-columns: 1fr; } }
     .kpi {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 20px 24px;
+      padding: 18px 20px;
     }
-
-    .kpi-label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
-    .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-    .kpi-sub { margin-top: 6px; font-size: 12px; }
-    .kpi-sub.up { color: var(--green); }
-    .kpi-sub.down { color: var(--red); }
-    .kpi-sub.neutral { color: var(--muted); }
-
-    /* Charts grid */
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .charts-grid.full { grid-template-columns: 1fr; }
-
-    @media (max-width: 768px) {
-      .charts-grid { grid-template-columns: 1fr; }
-      .kpi-value { font-size: 22px; }
-    }
-
+    .kpi-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+    .kpi-value { font-size: 26px; font-weight: 700; letter-spacing: -.5px; }
+    .kpi-sub { margin-top: 6px; font-size: 12px; color: var(--muted); }
+    .kpi-sub.pos { color: var(--green); }
+    .kpi-sub.neg { color: var(--red); }
+    .row { display: grid; gap: 18px; margin-bottom: 18px; }
+    .row.c1 { grid-template-columns: 1fr; }
+    .row.c2 { grid-template-columns: 1fr 1fr; }
+    .row.c3 { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 800px) { .row.c2, .row.c3 { grid-template-columns: 1fr; } }
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 24px;
+      padding: 22px 24px;
     }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .card-sub { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+    canvas { max-height: 280px; }
+    .tx-wrap { max-height: 292px; overflow-y: auto; margin-top: -4px; }
+    .tx-table { width: 100%; border-collapse: collapse; }
+    .tx-table th {
+      color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px;
+      padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--surface);
     }
-
-    .card-title { font-size: 15px; font-weight: 600; }
-    .card-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
-
-    .chart-wrap { position: relative; }
-    .chart-wrap canvas { max-height: 280px; }
-
-    /* Account breakdown table */
-    .account-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
-    .account-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-    .account-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .account-table tr:last-child td { border-bottom: none; }
-    .account-table tr:hover td { background: var(--surface2); }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 500;
+    .tx-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .tx-table tr:last-child td { border-bottom: none; }
+    .tx-table tbody tr:hover td { background: var(--surf2); }
+    /* Setup overlay */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,11,16,.88);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200;
+      backdrop-filter: blur(4px);
     }
-    .badge-blue { background: rgba(99,102,241,0.15); color: #818cf8; }
-    .badge-cyan { background: rgba(34,211,238,0.12); color: var(--accent2); }
-    .badge-green { background: rgba(52,211,153,0.12); color: var(--green); }
-    .badge-yellow { background: rgba(251,191,36,0.12); color: var(--yellow); }
-
-    .progress-bar {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      margin-top: 4px;
-      overflow: hidden;
+    .setup-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 40px;
+      max-width: 520px;
+      width: 92%;
     }
-    .progress-fill { height: 100%; border-radius: 2px; }
-
-    /* Caucion / passive income section */
-    .caucion-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
+    .setup-box h2 { font-size: 18px; margin-bottom: 10px; }
+    .setup-box .desc { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
+    .steps { background: var(--bg); border-radius: 8px; padding: 16px 18px; margin-bottom: 20px; }
+    .steps ol { color: var(--muted); padding-left: 18px; font-size: 13px; line-height: 2.1; }
+    .steps code { background: var(--border); border-radius: 4px; padding: 1px 6px; font-family: monospace; color: var(--text); font-size: 12px; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .input-row input {
+      flex: 1; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 14px; border-radius: 8px; font-size: 13px;
     }
-    @media (max-width: 768px) { .caucion-grid { grid-template-columns: 1fr; } }
-
-    /* Gastos fijos section */
-    .gastos-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
+    .input-row input:focus { outline: none; border-color: var(--blue); }
+    .skip { color: var(--muted); font-size: 12px; cursor: pointer; text-align: center; margin-top: 8px; }
+    .skip:hover { color: var(--text); }
+    .demo-badge {
+      display: inline-block; background: rgba(230,145,56,.15);
+      color: var(--orange); font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle;
     }
-    @media (max-width: 768px) { .gastos-grid { grid-template-columns: 1fr; } }
-
-    /* Japan trip section */
-    .japan-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 900px) { .japan-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 600px) { .japan-grid { grid-template-columns: 1fr; } }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin: 32px 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .flag { font-size: 20px; }
-
-    /* Category list */
-    .cat-list { list-style: none; }
-    .cat-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .cat-item:last-child { border-bottom: none; }
-    .cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .cat-name { flex: 1; font-size: 13px; }
-    .cat-amount { font-size: 13px; font-weight: 600; }
-    .cat-pct { color: var(--muted); font-size: 11px; margin-left: 6px; }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 32px;
-      border-top: 1px solid var(--border);
-      margin-top: 16px;
-    }
+    footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px 24px 28px; margin-top: 4px; }
   </style>
 </head>
 <body>
 
+<!-- ── Setup / Configure Overlay ─────────────────────────────── -->
+<div id="overlay" class="overlay" style="display:none">
+  <div class="setup-box">
+    <h2>Conectar Google Sheets</h2>
+    <p class="desc">
+      El dashboard necesita una URL de Google Apps Script para obtener datos automáticamente
+      de la hoja <strong>gastos_unificados</strong>.
+    </p>
+    <div class="steps">
+      <ol>
+        <li>Abrí el spreadsheet → <strong>Extensiones → Apps Script</strong></li>
+        <li>Reemplazá el contenido con el código de <code>gas/Code.gs</code></li>
+        <li><strong>Implementar → Nueva implementación → Aplicación web</strong></li>
+        <li>Ejecutar como: <strong>Yo</strong> · Acceso: <strong>Cualquiera</strong></li>
+        <li>Copiá la URL de implementación y pegala acá</li>
+      </ol>
+    </div>
+    <div class="input-row">
+      <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/..." />
+      <button class="btn-primary" onclick="saveGasUrl()">Guardar</button>
+    </div>
+    <p class="skip" onclick="closeOverlay()">Continuar con datos demo →</p>
+  </div>
+</div>
+
+<!-- ── Header ─────────────────────────────────────────────────── -->
 <header>
   <div>
-    <h1>Finanzas Personales</h1>
-    <div style="margin-top:4px"><span class="dot"></span><span>Leandro · Datos al <span id="lastUpdated">—</span></span></div>
+    <h1>Finanzas Lea y Jo</h1>
+    <div class="status-line">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">Cargando…</span>
+    </div>
   </div>
-  <div style="text-align:right">
-    <div style="font-size:12px; color:var(--muted)">Patrimonio total</div>
-    <div style="font-size:22px; font-weight:700;" id="headerTotal">—</div>
+  <div class="header-actions">
+    <button class="btn" onclick="showSettings()">⚙ Configurar</button>
+    <button class="btn" onclick="refreshData()">↺ Actualizar</button>
   </div>
 </header>
 
 <main>
-
-  <!-- KPI Cards -->
+  <!-- KPI Row -->
   <div class="kpi-grid" id="kpiGrid"></div>
 
-  <!-- Portfolio Evolution -->
-  <div class="section-title">Evolución del Patrimonio</div>
-  <div class="charts-grid" style="grid-template-columns: 2fr 1fr;">
+  <!-- Row 1: Grouped bar ingresos vs egresos -->
+  <div class="row c1">
     <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Patrimonio total en USD</div>
-          <div class="card-sub">Todos los activos consolidados</div>
-        </div>
-      </div>
-      <div class="chart-wrap"><canvas id="lineChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Distribución actual</div>
-          <div class="card-sub">May 2026</div>
-        </div>
-      </div>
-      <div class="chart-wrap"><canvas id="donutChart"></canvas></div>
+      <div class="card-title">Ingresos y egresos por fecha</div>
+      <div class="card-sub">Año y mes</div>
+      <canvas id="ch-grouped"></canvas>
     </div>
   </div>
 
-  <!-- Accounts breakdown -->
-  <div class="charts-grid" style="margin-top:20px">
+  <!-- Row 2: Stacked ingresos + stacked egresos -->
+  <div class="row c2">
     <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Composición mensual</div>
-          <div class="card-sub">Por cuenta (USD)</div>
-        </div>
-      </div>
-      <div class="chart-wrap"><canvas id="stackedBar"></canvas></div>
+      <div class="card-title">Ingresos por fuente</div>
+      <div class="card-sub">Desglose mensual</div>
+      <canvas id="ch-ingresos"></canvas>
     </div>
     <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Cuentas — Mayo 2026</div>
-          <div class="card-sub">Balance actual por cuenta</div>
-        </div>
-      </div>
-      <table class="account-table" id="accountTable"></table>
+      <div class="card-title">Egresos por referencia</div>
+      <div class="card-sub">Desglose mensual</div>
+      <canvas id="ch-egresos"></canvas>
     </div>
   </div>
 
-  <!-- Ingresos Pasivos ARS -->
-  <div class="section-title">Ingresos Pasivos — Cauciones / FCI en Pesos</div>
-  <div class="caucion-grid">
+  <!-- Row 3: Donut + Transactions table -->
+  <div class="row c2">
     <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Ingresos mensuales (ARS)</div>
-          <div class="card-sub">Rendimientos de cauciones y FCI Plus · Leandro</div>
-        </div>
-        <div id="rendBadge" style="text-align:right"></div>
-      </div>
-      <div class="chart-wrap"><canvas id="caucionBar"></canvas></div>
+      <div class="card-title">Composición de egresos</div>
+      <div class="card-sub">Por referencia — período completo</div>
+      <canvas id="ch-donut" style="max-height:310px"></canvas>
     </div>
     <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Portafolio ARS</div>
-          <div class="card-sub">Evolución del capital en pesos</div>
-        </div>
-      </div>
-      <div class="chart-wrap"><canvas id="caucionPortfolio"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Gastos Fijos -->
-  <div class="section-title">Gastos Fijos Mensuales</div>
-  <div class="gastos-grid">
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Gastos en pesos (ARS)</div>
-          <div class="card-sub">Compromisos fijos + semanal Angie</div>
-        </div>
-      </div>
-      <div class="chart-wrap"><canvas id="gastosFijosBar"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Herramientas digitales (USD)</div>
-          <div class="card-sub">Suscripciones mensuales</div>
-        </div>
-      </div>
-      <ul class="cat-list" id="gastosUSDList"></ul>
-      <div style="margin-top:20px">
-        <div class="card-title" style="font-size:13px; margin-bottom:12px">Tendencia gastos 2024 (ARS · part. Leandro)</div>
-        <div class="chart-wrap"><canvas id="gastosTendencia"></canvas></div>
+      <div class="card-title">Últimas transacciones</div>
+      <div class="card-sub" id="txSub">—</div>
+      <div class="tx-wrap">
+        <table class="tx-table">
+          <thead>
+            <tr>
+              <th>Fecha</th><th>Referencia</th><th>Detalle</th>
+              <th style="text-align:right">Monto</th>
+            </tr>
+          </thead>
+          <tbody id="txBody"></tbody>
+        </table>
       </div>
     </div>
   </div>
-
-  <!-- Japan Trip -->
-  <div class="section-title"><span class="flag">🇯🇵</span> Viaje a Japón</div>
-  <div class="japan-grid">
-    <div class="card" style="grid-column: span 1;">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Gastos por categoría</div>
-          <div class="card-sub" id="japanDates">—</div>
-        </div>
-      </div>
-      <div class="chart-wrap"><canvas id="japanPie"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Desglose</div>
-          <div class="card-sub">Categorías</div>
-        </div>
-      </div>
-      <ul class="cat-list" id="japanCatList"></ul>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Por persona</div>
-          <div class="card-sub">Distribución del gasto</div>
-        </div>
-      </div>
-      <div class="chart-wrap"><canvas id="japanPersonBar"></canvas></div>
-    </div>
-  </div>
-
 </main>
 
-<footer>
-  Datos extraídos de Google Sheets · Actualizado <span id="footerDate">—</span>
-</footer>
+<footer id="footer">Finanzas Lea y Jo</footer>
 
 <script>
-// ── Palette ──────────────────────────────────────────────────────
-const PALETTE = [
-  '#6366f1','#22d3ee','#34d399','#fbbf24','#f87171',
-  '#a78bfa','#38bdf8','#4ade80','#fb923c','#e879f9',
+// ═══════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════
+const MES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const BLUE   = '#4472C4';
+const ORANGE = '#E69138';
+
+// Income palette: blues/teals
+const ING_PAL = ['#4472C4','#2E75B6','#70ADDB','#9DC3E6','#1F497D','#4BACC6','#0070C0','#6FA8DC','#002060','#3D85C8'];
+
+// Expense palette: varied
+const EGR_PAL = [
+  '#ED7D31','#A9D18E','#FFC000','#FF0000','#5B9BD5',
+  '#70AD47','#843C0C','#9DC3E6','#974706','#C55A11',
+  '#BDD7EE','#548235','#7030A0','#F4B183','#FFD966',
+  '#EA6B00','#67AB9F','#4472C4','#FF9900','#C00000',
 ];
-
-const ACCOUNT_COLORS = {
-  'Cash USD':    '#6366f1',
-  'Cash EUR':    '#818cf8',
-  'Wise Jo':     '#22d3ee',
-  'Wise Lea':    '#67e8f9',
-  'Cocos':       '#34d399',
-  'Binance':     '#fbbf24',
-  'Galicia USD': '#f97316',
-  'PayPal':      '#a78bfa',
-  'Mercado Pago':'#38bdf8',
-};
-
-const CHART_DEFAULTS = {
-  color: '#e2e8f0',
-  plugins: {
-    legend: { labels: { color: '#8892a4', boxWidth: 10, font: { size: 11 } } },
-    tooltip: {
-      backgroundColor: '#1a1d27',
-      borderColor: '#2e3248',
-      borderWidth: 1,
-      titleColor: '#e2e8f0',
-      bodyColor: '#8892a4',
-    }
-  },
-  scales: {
-    x: { ticks: { color: '#8892a4', font: { size: 11 } }, grid: { color: '#2e3248' } },
-    y: { ticks: { color: '#8892a4', font: { size: 11 }, callback: v => '$' + v.toLocaleString() }, grid: { color: '#2e3248' } },
-  }
-};
 
 Chart.defaults.color = '#8892a4';
 Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+Chart.defaults.font.size = 11;
 
-// ── Load Data ─────────────────────────────────────────────────────
-fetch('data/finanzas.json')
-  .then(r => r.json())
-  .then(data => renderDashboard(data))
-  .catch(() => {
-    // fallback: data might be embedded
-    if (window.FINANZAS_DATA) renderDashboard(window.FINANZAS_DATA);
-  });
+const GRID = { color: '#2e3248' };
+const TICK = { color: '#8892a4', font: { size: 11 } };
+const TIP  = {
+  backgroundColor: '#1a1d27', borderColor: '#2e3248', borderWidth: 1,
+  titleColor: '#e2e8f0', bodyColor: '#8892a4', padding: 10,
+};
 
-function fmt(n) {
-  return '$' + Math.round(n).toLocaleString('es-AR');
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+const fmtARS  = n => '$' + Math.round(n).toLocaleString('es-AR');
+const fmtM    = n => n >= 1e6 ? '$' + (n/1e6).toFixed(1) + 'M'
+                   : n >= 1e3 ? '$' + (n/1e3).toFixed(0) + 'k'
+                   : fmtARS(n);
+const monthLbl = key => { const [y,m] = key.split('-'); return MES[+m-1] + ' ' + y; };
+
+function parseAmt(v) {
+  if (typeof v === 'number') return v < 0 ? 0 : v;
+  if (!v) return 0;
+  const n = parseFloat(String(v).replace(/[^0-9.]/g,''));
+  return isNaN(n) ? 0 : n;
 }
 
-function fmtPct(a, b) {
-  const pct = ((a - b) / b * 100).toFixed(1);
-  const sign = pct >= 0 ? '+' : '';
-  return sign + pct + '%';
+// ═══════════════════════════════════════════════════════
+// CHART INSTANCES
+// ═══════════════════════════════════════════════════════
+let CH = {};
+function destroyAll() { Object.values(CH).forEach(c => c.destroy()); CH = {}; }
+
+// ═══════════════════════════════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════════════════════════════
+async function loadData() {
+  setStatus('loading', 'Cargando…');
+
+  let gasUrl = '';
+  try {
+    const cfg = await fetch('data/config.json').then(r => r.json());
+    if (cfg.gasUrl && cfg.gasUrl !== '') gasUrl = cfg.gasUrl;
+  } catch(e) {}
+  if (!gasUrl) gasUrl = localStorage.getItem('finanzas_gas_url') || '';
+
+  if (gasUrl) {
+    try {
+      const resp = await fetch(gasUrl);
+      const data = await resp.json();
+      if (data.success && Array.isArray(data.rows)) {
+        render(processRows(data.rows), data.lastUpdated, false);
+        return;
+      }
+    } catch(e) { console.warn('GAS error:', e.message); }
+  }
+
+  // Fallback demo
+  try {
+    const demo = await fetch('data/finanzas.json').then(r => r.json());
+    render(processRows(demo.rows), demo.lastUpdated, true);
+  } catch(e) {
+    showOverlay();
+    setStatus('demo', 'Sin datos');
+  }
 }
 
-function renderDashboard(data) {
-  const snaps = data.portfolio.snapshots;
-  const latest = snaps[snaps.length - 1];
-  const prev   = snaps[snaps.length - 2];
+// ═══════════════════════════════════════════════════════
+// DATA PROCESSING
+// ═══════════════════════════════════════════════════════
+function processRows(rows) {
+  const byMonth = {}, ingByMR = {}, egrByMR = {}, totEgr = {}, all = [];
 
-  // Header
-  document.getElementById('lastUpdated').textContent = data.lastUpdated;
-  document.getElementById('headerTotal').textContent = fmt(latest.total);
-  document.getElementById('footerDate').textContent = data.lastUpdated;
+  for (const row of rows) {
+    const raw = String(row.date || row.fecha || '').trim();
+    if (!raw) continue;
 
-  // ── KPI Cards ────────────────────────────────────────────────────
-  const change = latest.total - prev.total;
-  const changePct = (change / prev.total * 100).toFixed(1);
+    let dateStr;
+    if (/^\d{4}-\d{2}-\d{2}/.test(raw)) {
+      dateStr = raw.substring(0, 10);
+    } else if (/^\d{2}\/\d{2}\/\d{4}/.test(raw)) {
+      const [d, m, y] = raw.split('/'); dateStr = `${y}-${m}-${d}`;
+    } else continue;
 
-  const firstSnap = snaps[0];
-  const totalChange = latest.total - firstSnap.total;
-  const totalChangePct = (totalChange / firstSnap.total * 100).toFixed(1);
+    const [yy, mm] = dateStr.split('-');
+    const mk  = `${yy}-${mm}`;
+    const ref = String(row.referencia || '').trim().toLowerCase() || 'sin categoría';
+    const ing = parseAmt(row.ingresos);
+    const egr = parseAmt(row.egreso ?? row.egresos);
+    const det = String(row.Detalle || row.detalle || '').trim();
 
-  const japanTotal = data.japanTrip.totalUSD;
+    if (!byMonth[mk]) byMonth[mk] = { ingresos: 0, egresos: 0 };
+    byMonth[mk].ingresos += ing;
+    byMonth[mk].egresos  += egr;
+
+    if (ing > 0) {
+      if (!ingByMR[mk]) ingByMR[mk] = {};
+      ingByMR[mk][ref] = (ingByMR[mk][ref] || 0) + ing;
+    }
+    if (egr > 0) {
+      if (!egrByMR[mk]) egrByMR[mk] = {};
+      egrByMR[mk][ref] = (egrByMR[mk][ref] || 0) + egr;
+      totEgr[ref] = (totEgr[ref] || 0) + egr;
+    }
+    if (ing > 0 || egr > 0) all.push({ date: dateStr, referencia: ref, ingresos: ing, egresos: egr, detalle: det });
+  }
+
+  all.sort((a, b) => b.date.localeCompare(a.date));
+  return { byMonth, ingByMR, egrByMR, totEgr, recent: all.slice(0, 60), months: Object.keys(byMonth).sort() };
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function render(data, lastUpdated, isDemo) {
+  const { byMonth, ingByMR, egrByMR, totEgr, recent, months } = data;
+  const labels = months.map(monthLbl);
+  const dateStr = String(lastUpdated || '').substring(0, 10) || '—';
+
+  setStatus(isDemo ? 'demo' : 'live',
+    isDemo ? `Demo · ${dateStr}` : `Google Sheets · ${dateStr}`);
+  document.getElementById('footer').textContent =
+    `Finanzas Lea y Jo · Datos al ${dateStr}${isDemo ? ' · DEMO' : ''}`;
+
+  // KPIs
+  const last  = months[months.length - 1];
+  const prev  = months.length >= 2 ? months[months.length - 2] : null;
+  renderKPIs(byMonth[last], prev ? byMonth[prev] : null, monthLbl(last));
+
+  destroyAll();
+  renderGroupedBar(months, byMonth, labels);
+  renderStackedBar('ch-ingresos', months, ingByMR, labels, ING_PAL);
+  renderStackedBar('ch-egresos',  months, egrByMR, labels, EGR_PAL);
+  renderDonut(totEgr);
+  renderTable(recent);
+}
+
+// ── KPI Cards ────────────────────────────────────────────────────
+function renderKPIs(d, prev, lbl) {
+  const bal  = d.ingresos - d.egresos;
+  const pct  = d.ingresos > 0 ? (bal / d.ingresos * 100) : 0;
+  const dlt  = (v, p, invert) => {
+    if (!p) return { txt: '', cls: '' };
+    const diff = ((v - p) / p * 100);
+    const up = diff >= 0;
+    const cls = (up !== Boolean(invert)) ? 'pos' : 'neg';
+    return { txt: `${up ? '▲' : '▼'} ${Math.abs(diff).toFixed(1)}% vs mes anterior`, cls };
+  };
 
   const kpis = [
-    {
-      label: 'Patrimonio actual',
-      value: fmt(latest.total),
-      sub: `${change >= 0 ? '▲' : '▼'} ${fmt(Math.abs(change))} vs ${prev.mes}`,
-      cls: change >= 0 ? 'up' : 'down',
-    },
-    {
-      label: 'Variación mensual',
-      value: (changePct >= 0 ? '+' : '') + changePct + '%',
-      sub: `De ${fmt(prev.total)} a ${fmt(latest.total)}`,
-      cls: changePct >= 0 ? 'up' : 'down',
-    },
-    {
-      label: `Crecimiento desde ${firstSnap.mes}`,
-      value: (totalChangePct >= 0 ? '+' : '') + totalChangePct + '%',
-      sub: `De ${fmt(firstSnap.total)} a ${fmt(latest.total)}`,
-      cls: totalChangePct >= 0 ? 'up' : 'down',
-    },
-    {
-      label: 'Inversiones (Cocos)',
-      value: fmt(latest.cuentas['Cocos']),
-      sub: `${fmtPct(latest.cuentas['Cocos'], firstSnap.cuentas['Cocos'])} desde ${firstSnap.mes}`,
-      cls: 'up',
-    },
-    {
-      label: 'Viaje Japón',
-      value: fmt(japanTotal),
-      sub: data.japanTrip.fechas,
-      cls: 'neutral',
-    },
+    { lbl: `Ingresos · ${lbl}`,         val: fmtM(d.ingresos), accent: BLUE,   ...dlt(d.ingresos, prev?.ingresos, false) },
+    { lbl: `Egresos · ${lbl}`,          val: fmtM(d.egresos),  accent: ORANGE, ...dlt(d.egresos,  prev?.egresos,  true)  },
+    { lbl: `Balance · ${lbl}`,          val: fmtM(Math.abs(bal)), accent: bal >= 0 ? '#34d399' : '#f87171',
+      txt: bal >= 0 ? 'Superávit' : 'Déficit', cls: bal >= 0 ? 'pos' : 'neg' },
+    { lbl: `Tasa de ahorro · ${lbl}`,   val: pct.toFixed(1) + '%',
+      accent: pct >= 20 ? '#34d399' : pct >= 10 ? ORANGE : '#f87171',
+      txt: pct >= 0 ? 'Del ingreso ahorrado' : 'Déficit mensual',
+      cls: pct >= 20 ? 'pos' : pct >= 10 ? '' : 'neg' },
   ];
 
-  const kpiGrid = document.getElementById('kpiGrid');
-  kpis.forEach(k => {
-    kpiGrid.innerHTML += `
-      <div class="kpi">
-        <div class="kpi-label">${k.label}</div>
-        <div class="kpi-value">${k.value}</div>
-        <div class="kpi-sub ${k.cls}">${k.sub}</div>
-      </div>`;
-  });
+  document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
+    <div class="kpi">
+      <div class="kpi-label">${k.lbl}</div>
+      <div class="kpi-value" style="color:${k.accent}">${k.val}</div>
+      ${k.txt ? `<div class="kpi-sub ${k.cls}">${k.txt}</div>` : ''}
+    </div>`).join('');
+}
 
-  // ── Line Chart ───────────────────────────────────────────────────
-  new Chart(document.getElementById('lineChart'), {
-    type: 'line',
+// ── Chart 1: Grouped bar ─────────────────────────────────────────
+function renderGroupedBar(months, byMonth, labels) {
+  CH.grouped = new Chart(document.getElementById('ch-grouped'), {
+    type: 'bar',
     data: {
-      labels: snaps.map(s => s.mes),
-      datasets: [{
-        label: 'Patrimonio USD',
-        data: snaps.map(s => s.total),
-        borderColor: '#6366f1',
-        backgroundColor: 'rgba(99,102,241,0.08)',
-        pointBackgroundColor: '#6366f1',
-        pointRadius: 5,
-        tension: 0.3,
-        fill: true,
-      }]
+      labels,
+      datasets: [
+        { label: 'Ingresos', data: months.map(m => byMonth[m]?.ingresos || 0), backgroundColor: BLUE,   borderRadius: 4 },
+        { label: 'Egresos',  data: months.map(m => byMonth[m]?.egresos  || 0), backgroundColor: ORANGE, borderRadius: 4 },
+      ]
     },
     options: {
-      ...CHART_DEFAULTS,
+      responsive: true,
       plugins: {
-        ...CHART_DEFAULTS.plugins,
-        legend: { display: false },
-        tooltip: {
-          ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: { label: ctx => ' ' + fmt(ctx.raw) }
-        }
+        legend: { labels: { color: '#8892a4', boxWidth: 10 } },
+        tooltip: { ...TIP, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmtARS(ctx.raw)}` } }
       },
-      scales: CHART_DEFAULTS.scales,
+      scales: {
+        x: { ticks: TICK, grid: GRID },
+        y: { ticks: { ...TICK, callback: v => fmtM(v) }, grid: GRID }
+      }
     }
   });
+}
 
-  // ── Donut Chart (latest) ─────────────────────────────────────────
-  const latestAccounts = Object.entries(latest.cuentas).filter(([,v]) => v > 0);
-  new Chart(document.getElementById('donutChart'), {
+// ── Chart 2 & 3: Stacked bars ────────────────────────────────────
+function renderStackedBar(id, months, byMR, labels, palette) {
+  const allRefs = [...new Set(months.flatMap(m => Object.keys(byMR[m] || {})))];
+  CH[id] = new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: allRefs.map((ref, i) => ({
+        label: ref,
+        data: months.map(m => byMR[m]?.[ref] || 0),
+        backgroundColor: palette[i % palette.length],
+        stack: 's',
+        borderRadius: 2,
+      }))
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#8892a4', boxWidth: 9, font: { size: 10 }, padding: 6 } },
+        tooltip: { ...TIP, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmtARS(ctx.raw)}` } }
+      },
+      scales: {
+        x: { stacked: true, ticks: TICK, grid: GRID },
+        y: { stacked: true, ticks: { ...TICK, callback: v => fmtM(v) }, grid: GRID }
+      }
+    }
+  });
+}
+
+// ── Chart 4: Donut ───────────────────────────────────────────────
+function renderDonut(totEgr) {
+  const sorted = Object.entries(totEgr).filter(([,v]) => v > 0)
+    .sort(([,a],[,b]) => b - a).slice(0, 14);
+  const total = sorted.reduce((s,[,v]) => s + v, 0);
+
+  CH.donut = new Chart(document.getElementById('ch-donut'), {
     type: 'doughnut',
     data: {
-      labels: latestAccounts.map(([k]) => k),
-      datasets: [{
-        data: latestAccounts.map(([,v]) => v),
-        backgroundColor: latestAccounts.map(([k]) => ACCOUNT_COLORS[k] || '#6366f1'),
-        borderColor: '#1a1d27',
-        borderWidth: 2,
-      }]
+      labels: sorted.map(([k]) => k),
+      datasets: [{ data: sorted.map(([,v]) => v), backgroundColor: EGR_PAL, borderColor: '#1a1d27', borderWidth: 2 }]
     },
     options: {
       plugins: {
-        legend: { position: 'right', labels: { color: '#8892a4', boxWidth: 10, font: { size: 11 }, padding: 8 } },
+        legend: { position: 'right', labels: { color: '#8892a4', boxWidth: 9, font: { size: 11 }, padding: 5 } },
         tooltip: {
-          ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: {
-            label: ctx => ` ${ctx.label}: ${fmt(ctx.raw)} (${(ctx.raw/latest.total*100).toFixed(1)}%)`
-          }
+          ...TIP,
+          callbacks: { label: ctx => ` ${ctx.label}: ${fmtARS(ctx.raw)} (${(ctx.raw/total*100).toFixed(1)}%)` }
         }
       },
       cutout: '62%',
     }
   });
-
-  // ── Stacked Bar ──────────────────────────────────────────────────
-  const allAccountKeys = [...new Set(snaps.flatMap(s => Object.keys(s.cuentas)))];
-  new Chart(document.getElementById('stackedBar'), {
-    type: 'bar',
-    data: {
-      labels: snaps.map(s => s.mes),
-      datasets: allAccountKeys.map(k => ({
-        label: k,
-        data: snaps.map(s => s.cuentas[k] || 0),
-        backgroundColor: ACCOUNT_COLORS[k] || '#6366f1',
-        stack: 'portfolio',
-      }))
-    },
-    options: {
-      ...CHART_DEFAULTS,
-      plugins: {
-        ...CHART_DEFAULTS.plugins,
-        tooltip: {
-          ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}` }
-        }
-      },
-      scales: {
-        x: { ...CHART_DEFAULTS.scales.x, stacked: true },
-        y: { ...CHART_DEFAULTS.scales.y, stacked: true },
-      }
-    }
-  });
-
-  // ── Account Table ────────────────────────────────────────────────
-  const tbl = document.getElementById('accountTable');
-  tbl.innerHTML = `<tr><th>Cuenta</th><th>USD</th><th>%</th></tr>`;
-  const sortedAccounts = Object.entries(latest.cuentas)
-    .filter(([,v]) => v > 0)
-    .sort(([,a],[,b]) => b - a);
-  sortedAccounts.forEach(([name, val]) => {
-    const pct = (val / latest.total * 100).toFixed(1);
-    const color = ACCOUNT_COLORS[name] || '#6366f1';
-    tbl.innerHTML += `
-      <tr>
-        <td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};margin-right:8px"></span>${name}</td>
-        <td style="font-weight:600">${fmt(val)}</td>
-        <td style="color:var(--muted)">
-          ${pct}%
-          <div class="progress-bar" style="width:80px">
-            <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
-          </div>
-        </td>
-      </tr>`;
-  });
-
-  // ── Cauciones / Ingresos Pasivos ─────────────────────────────────
-  if (data.caucionARS) {
-    const cau = data.caucionARS.mensual;
-    const lastRend = cau[cau.length - 1].rendAnualizado;
-    document.getElementById('rendBadge').innerHTML =
-      `<div style="font-size:11px;color:var(--muted)">Tasa actual</div>
-       <div style="font-size:20px;font-weight:700;color:var(--green)">${lastRend}%</div>
-       <div style="font-size:11px;color:var(--muted)">anualizado</div>`;
-
-    new Chart(document.getElementById('caucionBar'), {
-      type: 'bar',
-      data: {
-        labels: cau.map(m => m.mes + (m.notaParcial ? '*' : '')),
-        datasets: [{
-          label: 'Ingresos Lea (ARS)',
-          data: cau.map(m => m.ingresosLeaARS),
-          backgroundColor: '#6366f1',
-          borderRadius: 6,
-        }]
-      },
-      options: {
-        ...CHART_DEFAULTS,
-        plugins: {
-          ...CHART_DEFAULTS.plugins,
-          legend: { display: false },
-          tooltip: {
-            ...CHART_DEFAULTS.plugins.tooltip,
-            callbacks: { label: ctx => ` $ ${ctx.raw.toLocaleString('es-AR')} ARS` }
-          }
-        },
-        scales: {
-          x: CHART_DEFAULTS.scales.x,
-          y: { ...CHART_DEFAULTS.scales.y, ticks: { ...CHART_DEFAULTS.scales.y.ticks, callback: v => '$ ' + (v/1000).toFixed(0) + 'k' } }
-        }
-      }
-    });
-
-    new Chart(document.getElementById('caucionPortfolio'), {
-      type: 'line',
-      data: {
-        labels: cau.map(m => m.mes),
-        datasets: [
-          {
-            label: 'Leandro',
-            data: cau.map(m => m.leaPortfolioARS),
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99,102,241,0.08)',
-            pointRadius: 5,
-            tension: 0.3,
-            fill: false,
-          },
-          {
-            label: 'Gasti',
-            data: cau.map(m => m.gastiPortfolioARS),
-            borderColor: '#22d3ee',
-            backgroundColor: 'rgba(34,211,238,0.06)',
-            pointRadius: 5,
-            tension: 0.3,
-            fill: false,
-          }
-        ]
-      },
-      options: {
-        ...CHART_DEFAULTS,
-        plugins: {
-          ...CHART_DEFAULTS.plugins,
-          tooltip: {
-            ...CHART_DEFAULTS.plugins.tooltip,
-            callbacks: { label: ctx => ` ${ctx.dataset.label}: $ ${ctx.raw.toLocaleString('es-AR')} ARS` }
-          }
-        },
-        scales: {
-          x: CHART_DEFAULTS.scales.x,
-          y: { ...CHART_DEFAULTS.scales.y, ticks: { ...CHART_DEFAULTS.scales.y.ticks, callback: v => '$ ' + (v/1e6).toFixed(1) + 'M' } }
-        }
-      }
-    });
-  }
-
-  // ── Gastos Fijos ─────────────────────────────────────────────────
-  if (data.gastosFijos) {
-    const gf = data.gastosFijos;
-    const semARS = gf.semanalARS.reduce((a, x) => a + x.monto * 4.3, 0); // ~4.3 weeks/month
-    const allARS = [
-      ...gf.mensualARS,
-      ...gf.semanalARS.map(x => ({ concepto: x.concepto + ' (mensual)', monto: Math.round(x.monto * 4.3) }))
-    ].sort((a, b) => b.monto - a.monto);
-
-    const totalARS = allARS.reduce((a, x) => a + x.monto, 0);
-    const totalUSD = gf.mensualUSD.reduce((a, x) => a + x.monto, 0);
-
-    new Chart(document.getElementById('gastosFijosBar'), {
-      type: 'bar',
-      data: {
-        labels: allARS.map(x => x.concepto),
-        datasets: [{
-          label: 'ARS/mes',
-          data: allARS.map(x => x.monto),
-          backgroundColor: allARS.map((_, i) => PALETTE[i % PALETTE.length]),
-          borderRadius: 4,
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        ...CHART_DEFAULTS,
-        plugins: {
-          ...CHART_DEFAULTS.plugins,
-          legend: { display: false },
-          tooltip: {
-            ...CHART_DEFAULTS.plugins.tooltip,
-            callbacks: { label: ctx => ` $ ${ctx.raw.toLocaleString('es-AR')} ARS` }
-          }
-        },
-        scales: {
-          x: { ...CHART_DEFAULTS.scales.x, ticks: { ...CHART_DEFAULTS.scales.x.ticks, callback: v => '$ ' + (v/1000).toFixed(0) + 'k' } },
-          y: { ticks: { color: '#8892a4', font: { size: 11 } }, grid: { display: false } }
-        }
-      }
-    });
-
-    // USD list
-    const usdList = document.getElementById('gastosUSDList');
-    gf.mensualUSD.forEach((item, i) => {
-      usdList.innerHTML += `
-        <li class="cat-item">
-          <span class="cat-dot" style="background:${PALETTE[i % PALETTE.length]}"></span>
-          <span class="cat-name">${item.concepto}</span>
-          <span class="cat-amount">$${item.monto} USD</span>
-        </li>`;
-    });
-    usdList.innerHTML += `
-      <li class="cat-item" style="margin-top:8px;border-top:1px solid var(--border);padding-top:10px">
-        <span class="cat-name" style="font-weight:600">Total mensual</span>
-        <span class="cat-amount" style="color:var(--accent)">$${totalUSD} USD</span>
-      </li>`;
-  }
-
-  // ── Gastos Tendencia 2024 ─────────────────────────────────────────
-  if (data.gastosMensuales && data.gastosMensuales.length) {
-    const gm = data.gastosMensuales;
-    const catKeys = [...new Set(gm.flatMap(m => Object.keys(m.categorias)))];
-    const catColors2024 = {
-      'gastos seguros': '#6366f1', 'felicidad': '#22d3ee', 'obra': '#f59e0b',
-      'makro': '#34d399', 'muebles': '#f87171', 'prestamo': '#a78bfa',
-      'finde largo + cucha': '#38bdf8', 'sin categoria': '#4b5563'
-    };
-
-    new Chart(document.getElementById('gastosTendencia'), {
-      type: 'bar',
-      data: {
-        labels: gm.map(m => m.mes),
-        datasets: catKeys.map(k => ({
-          label: k,
-          data: gm.map(m => m.categorias[k] || 0),
-          backgroundColor: catColors2024[k] || '#6366f1',
-          stack: 'gastos',
-        }))
-      },
-      options: {
-        ...CHART_DEFAULTS,
-        plugins: {
-          ...CHART_DEFAULTS.plugins,
-          legend: { labels: { color: '#8892a4', boxWidth: 8, font: { size: 10 }, padding: 6 } },
-          tooltip: {
-            ...CHART_DEFAULTS.plugins.tooltip,
-            callbacks: { label: ctx => ` ${ctx.dataset.label}: $ ${ctx.raw.toLocaleString('es-AR')}` }
-          }
-        },
-        scales: {
-          x: { ...CHART_DEFAULTS.scales.x, stacked: true },
-          y: { ...CHART_DEFAULTS.scales.y, stacked: true, ticks: { ...CHART_DEFAULTS.scales.y.ticks, callback: v => '$ ' + (v/1000).toFixed(0) + 'k' } }
-        }
-      }
-    });
-  }
-
-  // ── Japan Trip ───────────────────────────────────────────────────
-  document.getElementById('japanDates').textContent = data.japanTrip.fechas;
-
-  const cats = Object.entries(data.japanTrip.porCategoria).sort(([,a],[,b]) => b - a);
-  const total = data.japanTrip.totalUSD;
-
-  new Chart(document.getElementById('japanPie'), {
-    type: 'doughnut',
-    data: {
-      labels: cats.map(([k]) => k),
-      datasets: [{
-        data: cats.map(([,v]) => v),
-        backgroundColor: PALETTE,
-        borderColor: '#1a1d27',
-        borderWidth: 2,
-      }]
-    },
-    options: {
-      plugins: {
-        legend: { position: 'bottom', labels: { color: '#8892a4', boxWidth: 10, font: { size: 11 }, padding: 6 } },
-        tooltip: {
-          ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: {
-            label: ctx => ` ${ctx.label}: ${fmt(ctx.raw)} (${(ctx.raw/total*100).toFixed(1)}%)`
-          }
-        }
-      },
-      cutout: '55%',
-    }
-  });
-
-  const catList = document.getElementById('japanCatList');
-  cats.forEach(([name, val], i) => {
-    catList.innerHTML += `
-      <li class="cat-item">
-        <span class="cat-dot" style="background:${PALETTE[i % PALETTE.length]}"></span>
-        <span class="cat-name">${name}</span>
-        <span class="cat-amount">${fmt(val)}</span>
-        <span class="cat-pct">${(val/total*100).toFixed(0)}%</span>
-      </li>`;
-  });
-
-  // Japan by person
-  const personas = Object.entries(data.japanTrip.porPersona);
-  new Chart(document.getElementById('japanPersonBar'), {
-    type: 'bar',
-    data: {
-      labels: personas.map(([k]) => k),
-      datasets: [{
-        label: 'Gasto USD',
-        data: personas.map(([,v]) => v),
-        backgroundColor: ['#6366f1', '#22d3ee', '#34d399'],
-        borderRadius: 6,
-      }]
-    },
-    options: {
-      ...CHART_DEFAULTS,
-      plugins: {
-        ...CHART_DEFAULTS.plugins,
-        legend: { display: false },
-        tooltip: {
-          ...CHART_DEFAULTS.plugins.tooltip,
-          callbacks: { label: ctx => ` ${fmt(ctx.raw)}` }
-        }
-      },
-      scales: CHART_DEFAULTS.scales,
-    }
-  });
 }
-</script>
 
+// ── Chart 5: Transactions table ──────────────────────────────────
+function renderTable(recent) {
+  document.getElementById('txSub').textContent = `Últimas ${recent.length} transacciones`;
+  document.getElementById('txBody').innerHTML = recent.map(tx => {
+    const [y,m,d] = tx.date.split('-');
+    const isIng = tx.ingresos > 0;
+    const amt   = isIng ? tx.ingresos : tx.egresos;
+    const color = isIng ? '#34d399' : '#f87171';
+    return `<tr>
+      <td style="color:var(--muted)">${d}/${m}/${y}</td>
+      <td>${tx.referencia}</td>
+      <td style="color:var(--muted)">${tx.detalle}</td>
+      <td style="color:${color};font-weight:600;text-align:right;white-space:nowrap">
+        ${isIng ? '+' : '−'}${fmtARS(amt)}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// UI
+// ═══════════════════════════════════════════════════════
+function setStatus(mode, text) {
+  const dot = document.getElementById('statusDot');
+  dot.className = 'dot' + (mode === 'demo' ? ' demo' : mode === 'loading' ? ' loading' : '');
+  document.getElementById('statusText').textContent = text;
+}
+
+function showSettings() {
+  document.getElementById('gasUrlInput').value = localStorage.getItem('finanzas_gas_url') || '';
+  document.getElementById('overlay').style.display = 'flex';
+}
+function closeOverlay() { document.getElementById('overlay').style.display = 'none'; }
+
+function saveGasUrl() {
+  const url = document.getElementById('gasUrlInput').value.trim();
+  if (!url) return;
+  localStorage.setItem('finanzas_gas_url', url);
+  closeOverlay();
+  refreshData();
+}
+
+async function refreshData() {
+  destroyAll();
+  document.getElementById('kpiGrid').innerHTML =
+    '<div style="color:var(--muted);padding:20px 0">Cargando…</div>';
+  await loadData();
+}
+
+function showOverlay() { document.getElementById('overlay').style.display = 'flex'; }
+
+// Init
+loadData();
+</script>
 </body>
 </html>
