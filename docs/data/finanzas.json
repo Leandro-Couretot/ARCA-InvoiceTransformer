@@ -1,0 +1,123 @@
+{
+  "lastUpdated": "2026-05-23",
+  "portfolio": {
+    "snapshots": [
+      {
+        "mes": "Nov 2025",
+        "fecha": "04/11/2025",
+        "total": 24932,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 6900,
+          "Wise Lea": 4500,
+          "PayPal": 150,
+          "Galicia USD": 574,
+          "Binance": 933,
+          "Cocos": 3215
+        }
+      },
+      {
+        "mes": "Ene 2026",
+        "fecha": "11/01/2026",
+        "total": 28380,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 5950,
+          "Wise Lea": 4974,
+          "PayPal": 257,
+          "Galicia USD": 855,
+          "Binance": 941,
+          "Cocos": 6505,
+          "Mercado Pago": 238
+        }
+      },
+      {
+        "mes": "Feb 2026",
+        "fecha": "02/02/2026",
+        "total": 29937,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 5950,
+          "Wise Lea": 4946,
+          "PayPal": 257,
+          "Galicia USD": 855,
+          "Binance": 544,
+          "Cocos": 8725,
+          "Mercado Pago": 0
+        }
+      },
+      {
+        "mes": "Mar 2026",
+        "fecha": "02/03/2026",
+        "total": 32818,
+        "cuentas": {
+          "Cash USD": 7906,
+          "Cash EUR": 754,
+          "Wise Jo": 5728,
+          "Wise Lea": 4861,
+          "PayPal": 257,
+          "Galicia USD": 856,
+          "Binance": 546,
+          "Cocos": 11429,
+          "Mercado Pago": 481
+        }
+      },
+      {
+        "mes": "Abr 2026",
+        "fecha": "01/04/2026",
+        "total": 30467,
+        "cuentas": {
+          "Cash USD": 5981,
+          "Cash EUR": 754,
+          "Wise Jo": 3817,
+          "Wise Lea": 2528,
+          "PayPal": 257,
+          "Galicia USD": 856,
+          "Binance": 546,
+          "Cocos": 15314,
+          "Mercado Pago": 414
+        }
+      },
+      {
+        "mes": "May 2026",
+        "fecha": "02/05/2026",
+        "total": 27437,
+        "cuentas": {
+          "Cash USD": 5156,
+          "Cash EUR": 754,
+          "Wise Jo": 2369,
+          "Wise Lea": 1027,
+          "PayPal": 257,
+          "Galicia USD": 857,
+          "Binance": 546,
+          "Cocos": 14124,
+          "Mercado Pago": 2347
+        }
+      }
+    ]
+  },
+  "japanTrip": {
+    "totalUSD": 5193,
+    "fechas": "26 Mar - 17 Abr 2026",
+    "porCategoria": {
+      "Hospedaje": 1401,
+      "Compras": 1115,
+      "Comida": 648,
+      "Entradas": 589,
+      "Supermercado": 489,
+      "Amadeo": 390,
+      "Uber": 222,
+      "Transporte": 141,
+      "Aeropuerto": 119,
+      "Regalo": 79
+    },
+    "porPersona": {
+      "Leandro": 1890,
+      "Lucia": 2650,
+      "Efectivo": 653
+    }
+  }
+}
