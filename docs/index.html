@@ -132,6 +132,24 @@
     }
     .progress-fill { height: 100%; border-radius: 2px; }
 
+    /* Caucion / passive income section */
+    .caucion-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) { .caucion-grid { grid-template-columns: 1fr; } }
+
+    /* Gastos fijos section */
+    .gastos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) { .gastos-grid { grid-template-columns: 1fr; } }
+
     /* Japan trip section */
     .japan-grid {
       display: grid;
@@ -248,6 +266,57 @@
         </div>
       </div>
       <table class="account-table" id="accountTable"></table>
+    </div>
+  </div>
+
+  <!-- Ingresos Pasivos ARS -->
+  <div class="section-title">Ingresos Pasivos — Cauciones / FCI en Pesos</div>
+  <div class="caucion-grid">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Ingresos mensuales (ARS)</div>
+          <div class="card-sub">Rendimientos de cauciones y FCI Plus · Leandro</div>
+        </div>
+        <div id="rendBadge" style="text-align:right"></div>
+      </div>
+      <div class="chart-wrap"><canvas id="caucionBar"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Portafolio ARS</div>
+          <div class="card-sub">Evolución del capital en pesos</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="caucionPortfolio"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Gastos Fijos -->
+  <div class="section-title">Gastos Fijos Mensuales</div>
+  <div class="gastos-grid">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Gastos en pesos (ARS)</div>
+          <div class="card-sub">Compromisos fijos + semanal Angie</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="gastosFijosBar"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Herramientas digitales (USD)</div>
+          <div class="card-sub">Suscripciones mensuales</div>
+        </div>
+      </div>
+      <ul class="cat-list" id="gastosUSDList"></ul>
+      <div style="margin-top:20px">
+        <div class="card-title" style="font-size:13px; margin-bottom:12px">Tendencia gastos 2024 (ARS · part. Leandro)</div>
+        <div class="chart-wrap"><canvas id="gastosTendencia"></canvas></div>
+      </div>
     </div>
   </div>
 
@@ -518,6 +587,182 @@ function renderDashboard(data) {
         </td>
       </tr>`;
   });
+
+  // ── Cauciones / Ingresos Pasivos ─────────────────────────────────
+  if (data.caucionARS) {
+    const cau = data.caucionARS.mensual;
+    const lastRend = cau[cau.length - 1].rendAnualizado;
+    document.getElementById('rendBadge').innerHTML =
+      `<div style="font-size:11px;color:var(--muted)">Tasa actual</div>
+       <div style="font-size:20px;font-weight:700;color:var(--green)">${lastRend}%</div>
+       <div style="font-size:11px;color:var(--muted)">anualizado</div>`;
+
+    new Chart(document.getElementById('caucionBar'), {
+      type: 'bar',
+      data: {
+        labels: cau.map(m => m.mes + (m.notaParcial ? '*' : '')),
+        datasets: [{
+          label: 'Ingresos Lea (ARS)',
+          data: cau.map(m => m.ingresosLeaARS),
+          backgroundColor: '#6366f1',
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          legend: { display: false },
+          tooltip: {
+            ...CHART_DEFAULTS.plugins.tooltip,
+            callbacks: { label: ctx => ` $ ${ctx.raw.toLocaleString('es-AR')} ARS` }
+          }
+        },
+        scales: {
+          x: CHART_DEFAULTS.scales.x,
+          y: { ...CHART_DEFAULTS.scales.y, ticks: { ...CHART_DEFAULTS.scales.y.ticks, callback: v => '$ ' + (v/1000).toFixed(0) + 'k' } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('caucionPortfolio'), {
+      type: 'line',
+      data: {
+        labels: cau.map(m => m.mes),
+        datasets: [
+          {
+            label: 'Leandro',
+            data: cau.map(m => m.leaPortfolioARS),
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99,102,241,0.08)',
+            pointRadius: 5,
+            tension: 0.3,
+            fill: false,
+          },
+          {
+            label: 'Gasti',
+            data: cau.map(m => m.gastiPortfolioARS),
+            borderColor: '#22d3ee',
+            backgroundColor: 'rgba(34,211,238,0.06)',
+            pointRadius: 5,
+            tension: 0.3,
+            fill: false,
+          }
+        ]
+      },
+      options: {
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          tooltip: {
+            ...CHART_DEFAULTS.plugins.tooltip,
+            callbacks: { label: ctx => ` ${ctx.dataset.label}: $ ${ctx.raw.toLocaleString('es-AR')} ARS` }
+          }
+        },
+        scales: {
+          x: CHART_DEFAULTS.scales.x,
+          y: { ...CHART_DEFAULTS.scales.y, ticks: { ...CHART_DEFAULTS.scales.y.ticks, callback: v => '$ ' + (v/1e6).toFixed(1) + 'M' } }
+        }
+      }
+    });
+  }
+
+  // ── Gastos Fijos ─────────────────────────────────────────────────
+  if (data.gastosFijos) {
+    const gf = data.gastosFijos;
+    const semARS = gf.semanalARS.reduce((a, x) => a + x.monto * 4.3, 0); // ~4.3 weeks/month
+    const allARS = [
+      ...gf.mensualARS,
+      ...gf.semanalARS.map(x => ({ concepto: x.concepto + ' (mensual)', monto: Math.round(x.monto * 4.3) }))
+    ].sort((a, b) => b.monto - a.monto);
+
+    const totalARS = allARS.reduce((a, x) => a + x.monto, 0);
+    const totalUSD = gf.mensualUSD.reduce((a, x) => a + x.monto, 0);
+
+    new Chart(document.getElementById('gastosFijosBar'), {
+      type: 'bar',
+      data: {
+        labels: allARS.map(x => x.concepto),
+        datasets: [{
+          label: 'ARS/mes',
+          data: allARS.map(x => x.monto),
+          backgroundColor: allARS.map((_, i) => PALETTE[i % PALETTE.length]),
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          legend: { display: false },
+          tooltip: {
+            ...CHART_DEFAULTS.plugins.tooltip,
+            callbacks: { label: ctx => ` $ ${ctx.raw.toLocaleString('es-AR')} ARS` }
+          }
+        },
+        scales: {
+          x: { ...CHART_DEFAULTS.scales.x, ticks: { ...CHART_DEFAULTS.scales.x.ticks, callback: v => '$ ' + (v/1000).toFixed(0) + 'k' } },
+          y: { ticks: { color: '#8892a4', font: { size: 11 } }, grid: { display: false } }
+        }
+      }
+    });
+
+    // USD list
+    const usdList = document.getElementById('gastosUSDList');
+    gf.mensualUSD.forEach((item, i) => {
+      usdList.innerHTML += `
+        <li class="cat-item">
+          <span class="cat-dot" style="background:${PALETTE[i % PALETTE.length]}"></span>
+          <span class="cat-name">${item.concepto}</span>
+          <span class="cat-amount">$${item.monto} USD</span>
+        </li>`;
+    });
+    usdList.innerHTML += `
+      <li class="cat-item" style="margin-top:8px;border-top:1px solid var(--border);padding-top:10px">
+        <span class="cat-name" style="font-weight:600">Total mensual</span>
+        <span class="cat-amount" style="color:var(--accent)">$${totalUSD} USD</span>
+      </li>`;
+  }
+
+  // ── Gastos Tendencia 2024 ─────────────────────────────────────────
+  if (data.gastosMensuales && data.gastosMensuales.length) {
+    const gm = data.gastosMensuales;
+    const catKeys = [...new Set(gm.flatMap(m => Object.keys(m.categorias)))];
+    const catColors2024 = {
+      'gastos seguros': '#6366f1', 'felicidad': '#22d3ee', 'obra': '#f59e0b',
+      'makro': '#34d399', 'muebles': '#f87171', 'prestamo': '#a78bfa',
+      'finde largo + cucha': '#38bdf8', 'sin categoria': '#4b5563'
+    };
+
+    new Chart(document.getElementById('gastosTendencia'), {
+      type: 'bar',
+      data: {
+        labels: gm.map(m => m.mes),
+        datasets: catKeys.map(k => ({
+          label: k,
+          data: gm.map(m => m.categorias[k] || 0),
+          backgroundColor: catColors2024[k] || '#6366f1',
+          stack: 'gastos',
+        }))
+      },
+      options: {
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          legend: { labels: { color: '#8892a4', boxWidth: 8, font: { size: 10 }, padding: 6 } },
+          tooltip: {
+            ...CHART_DEFAULTS.plugins.tooltip,
+            callbacks: { label: ctx => ` ${ctx.dataset.label}: $ ${ctx.raw.toLocaleString('es-AR')}` }
+          }
+        },
+        scales: {
+          x: { ...CHART_DEFAULTS.scales.x, stacked: true },
+          y: { ...CHART_DEFAULTS.scales.y, stacked: true, ticks: { ...CHART_DEFAULTS.scales.y.ticks, callback: v => '$ ' + (v/1000).toFixed(0) + 'k' } }
+        }
+      }
+    });
+  }
 
   // ── Japan Trip ───────────────────────────────────────────────────
   document.getElementById('japanDates').textContent = data.japanTrip.fechas;
